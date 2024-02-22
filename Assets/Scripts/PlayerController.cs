@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public float speed = 1f;
     private Rigidbody rb;
     private int pickUpCount;
+    private Timer timer;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +20,9 @@ public class PlayerController : MonoBehaviour
         pickUpCount = GameObject.FindGameObjectsWithTag("Pickup").Length;
         //Run the Check Pickups Function
         CheckPickUps();
+        //Get the timer object and start the timer
+        timer = FindObjectOfType<Timer>();
+        timer.StartTimer();
     }
 
     // Update is called once per frame
@@ -50,7 +54,8 @@ public class PlayerController : MonoBehaviour
         print("Pick Ups Left: " + pickUpCount);
         if(pickUpCount == 0)
         {
-            print("Yay! You won");
+            timer.StopTimer();
+            print("Yay! You won. Your time was: " + timer.GetTime());
         }
     }
 }
