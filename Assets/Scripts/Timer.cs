@@ -24,11 +24,7 @@ public class Timer : MonoBehaviour
     {
         if (isTiming == true)
        {
-
             currentTime += Time.deltaTime;
-
-
-
-        };
+        }
     }
 }

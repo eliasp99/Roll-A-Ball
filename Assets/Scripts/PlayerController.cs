@@ -9,6 +9,10 @@ using TMPro;
 public class PlayerController : MonoBehaviour
 {
     public float speed = 1f;
+
+    [Header("UI Stuff")]
+    public GameObject gameOverScreen;
+
     private Rigidbody rb;
     private int pickUpCount;
     private Timer timer;
@@ -39,6 +43,9 @@ public class PlayerController : MonoBehaviour
         //Get the timer object and start the timer
         timer = FindObjectOfType<Timer>();
         timer.StartTimer();
+
+        gameOverScreen.SetActive(false);
+
     }
     private void Update()
     {
@@ -101,6 +108,16 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
     }
+
+    void SetCountText()
+    {
+        pickUpText.text = "Count: " + pickUpCount.ToString();
+        if(pickUpCount >= 12)
+        {
+            WinGame();
+        }
+    }
+    
 
     //Temporary - Remove when doing A2 modules
     public void RestartGame()
