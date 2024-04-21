@@ -17,6 +17,9 @@ public class PlayerController : MonoBehaviour
     private int pickUpCount;
     private Timer timer;
     private bool gameOver = false;
+    GameObject resetPoint;
+    bool resetting = false;
+    Color originalColour;
 
     [Header("UI")]
     public TMP_Text pickUpText;
@@ -36,7 +39,7 @@ public class PlayerController : MonoBehaviour
         winPanel.SetActive(false);
 
         rb = GetComponent<Rigidbody>();
-        //Get the number of pickups in our scebe
+        //Get the number of pickups in our scene
         pickUpCount = GameObject.FindGameObjectsWithTag("Pickup").Length;
         //Run the Check Pickups Function
         CheckPickUps();
@@ -45,6 +48,8 @@ public class PlayerController : MonoBehaviour
         timer.StartTimer();
 
         gameOverScreen.SetActive(false);
+        resetPoint = GameObject.Find("Reset Point");
+        originalColour = GetComponent<Renderer>().material.color;
 
     }
     private void Update()
@@ -55,6 +60,9 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         if (gameOver == true)
+            return;
+
+        if (resetting)
             return;
 
         float moveHorizontal = Input.GetAxis("Horizontal");
@@ -76,6 +84,33 @@ public class PlayerController : MonoBehaviour
             CheckPickUps();
         }
 
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Respawn"))
+        {
+            StartCoroutine(ResetPlayer());
+        }
+    }
+
+    public IEnumerator ResetPlayer()
+    {
+        resetting = true;
+        GetComponent<Renderer>().material.color = Color.black;
+        rb.velocity = Vector3.zero;
+        Vector3 startPos = transform.position;
+        float resetSpeed = 2f;
+        var i = 0.0f;
+        var rate = 1.0f / resetSpeed;
+        while (i < 1.0f)
+        {
+            _ = i + Time.deltaTime * rate;
+            transform.position = Vector3.Lerp(startPos, resetPoint.transform.position, i);
+            yield return null;
+        }
+        GetComponent<Renderer>().material.color = originalColour;
+        resetting = false;
     }
 
     void CheckPickUps()
