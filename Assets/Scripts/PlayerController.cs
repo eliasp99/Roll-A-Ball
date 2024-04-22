@@ -17,8 +17,9 @@ public class PlayerController : MonoBehaviour
     private int pickUpCount;
     private Timer timer;
     private bool gameOver = false;
-    GameObject resetPoint;
+    public GameObject resetPoint;
     bool resetting = false;
+    bool grounded = true;
     Color originalColour;
 
     [Header("UI")]
@@ -48,7 +49,8 @@ public class PlayerController : MonoBehaviour
         timer.StartTimer();
 
         gameOverScreen.SetActive(false);
-        resetPoint = GameObject.Find("Reset Point");
+        //resetPoint = GameObject.Find("Reset Point");
+        print("Reset Point" + resetPoint.transform.position);
         originalColour = GetComponent<Renderer>().material.color;
 
     }
@@ -70,6 +72,19 @@ public class PlayerController : MonoBehaviour
 
         Vector3 movement = new Vector3 (moveHorizontal, 0, moveVertical);
         rb.AddForce(movement * speed);
+
+        private void OnCollisionStay(Collision collision)
+        {
+            if (collision.collider.CompareTag("Ground"))
+                grounded = true;
+        }
+
+        private void OnCollisionExit(Collision collision)
+        {
+            if (collision.collider.CompareTag("Ground"))
+                grounded = false;
+        }
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -99,13 +114,14 @@ public class PlayerController : MonoBehaviour
         resetting = true;
         GetComponent<Renderer>().material.color = Color.black;
         rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
         Vector3 startPos = transform.position;
         float resetSpeed = 2f;
         var i = 0.0f;
         var rate = 1.0f / resetSpeed;
         while (i < 1.0f)
         {
-            _ = i + Time.deltaTime * rate;
+            i += Time.deltaTime * rate;
             transform.position = Vector3.Lerp(startPos, resetPoint.transform.position, i);
             yield return null;
         }
