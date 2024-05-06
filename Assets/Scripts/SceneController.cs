@@ -21,6 +21,7 @@ public class SceneController : MonoBehaviour
     public void ToTitleScene()
     {
         SceneManager.LoadScene("Title");
+        GameController.instance.controlType = ControlType.Normal;
     }
 
     // Gets our active scenes name

@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     bool grounded = true;
     Color originalColour;
     CameraController cameraController;
+    GameController gameController;
 
     [Header("UI")]
     public TMP_Text pickUpText;
@@ -54,6 +55,7 @@ public class PlayerController : MonoBehaviour
         print("Reset Point" + resetPoint.transform.position);
         originalColour = GetComponent<Renderer>().material.color;
         cameraController = FindObjectOfType<CameraController>();
+        gameController = FindObjectOfType<GameController>();
 
     }
     private void Update()
@@ -67,6 +69,9 @@ public class PlayerController : MonoBehaviour
             return;
 
         if (resetting)
+            return;
+
+        if (gameController.controlType == ControlType.WorldTilt)
             return;
 
         if (grounded)
