@@ -6,6 +6,7 @@ public class Timer : MonoBehaviour
 {
     public float currentTime;
     private bool isTiming;
+   
     public void StartTimer()
     {
         isTiming = true;
@@ -27,4 +28,5 @@ public class Timer : MonoBehaviour
             currentTime += Time.deltaTime;
         }
     }
+
 }

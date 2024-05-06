@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     bool resetting = false;
     bool grounded = true;
     Color originalColour;
+    CameraController cameraController;
 
     [Header("UI")]
     public TMP_Text pickUpText;
@@ -52,6 +53,7 @@ public class PlayerController : MonoBehaviour
         //resetPoint = GameObject.Find("Reset Point");
         print("Reset Point" + resetPoint.transform.position);
         originalColour = GetComponent<Renderer>().material.color;
+        cameraController = FindObjectOfType<CameraController>();
 
     }
     private void Update()
@@ -72,8 +74,17 @@ public class PlayerController : MonoBehaviour
             float moveHorizontal = Input.GetAxis("Horizontal");
             float moveVertical = Input.GetAxis("Vertical");
 
-            Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical);
+            Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
             rb.AddForce(movement * speed);
+
+
+            if (cameraController.cameraStyle == CameraStyle.Free)
+            {
+                //Rotates the player to the direction of the camera
+                transform.eulerAngles = Camera.main.transform.eulerAngles;
+                //Translates the input vectors into coordinates
+                movement = transform.TransformDirection(movement);
+            }
         }
 
     }
