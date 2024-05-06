@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rb;
     private int pickUpCount;
-    private Timer timer;
+    Timer timer;
     private bool gameOver = false;
     public GameObject resetPoint;
     bool resetting = false;

@@ -12787,6 +12787,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentTime: 0
+  countdownPanel: {fileID: 0}
+  countdownText: {fileID: 0}
+  bestTime: {fileID: 0}
+  bestTimeResult: {fileID: 0}
 --- !u!4 &703215560
 Transform:
   m_ObjectHideFlags: 0
@@ -12815,6 +12819,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentTime: 0
+  countdownPanel: {fileID: 0}
+  countdownText: {fileID: 0}
+  bestTime: {fileID: 0}
+  bestTimeResult: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
