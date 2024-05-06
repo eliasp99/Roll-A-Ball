@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     Color originalColour;
     CameraController cameraController;
     GameController gameController;
+    SoundController soundController;
 
     [Header("UI")]
     public TMP_Text pickUpText;
@@ -56,6 +57,7 @@ public class PlayerController : MonoBehaviour
         originalColour = GetComponent<Renderer>().material.color;
         cameraController = FindObjectOfType<CameraController>();
         gameController = FindObjectOfType<GameController>();
+        soundController = FindObjectOfType<SoundController>();
 
     }
     private void Update()
@@ -116,6 +118,7 @@ public class PlayerController : MonoBehaviour
             pickUpCount--;
             //Run the Check Pick Ups function
             CheckPickUps();
+            soundController.PlayPickupSound();
         }
 
     }
@@ -127,6 +130,8 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(ResetPlayer());
         }
     }
+
+ 
 
     public IEnumerator ResetPlayer()
     {
@@ -173,6 +178,7 @@ public class PlayerController : MonoBehaviour
         timer.StopTimer();
         //Display our time to the win time text
         winTimeText.text = "Your time was: " + timer.GetTime().ToString("F2");
+        soundController.PlayWinSound();
 
         //Stop the ball from moving
         rb.velocity = Vector3.zero;
